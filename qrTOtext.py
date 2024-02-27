@@ -4,7 +4,6 @@ import cv2
 import numpy as np
 import pyperclip
 import keyboard
-from pyzbar.pyzbar import decode as pyzbar_decode
 import itertools
 
 def take_screenshot():
@@ -66,18 +65,6 @@ def scan_qr_codes_opencv(image):
         print("Error during QR code detection using OpenCV:", e)
         return None
 
-def scan_qr_codes_pyzbar(image):
-    try:
-        # Convert the image to grayscale
-        grayscale_image = image.convert('L')
-        
-        # Decode any QR codes present in the image using pyzbar
-        decoded_data = pyzbar_decode(grayscale_image)
-        
-        return [data.data.decode('utf-8') for data in decoded_data]
-    except Exception as e:
-        print("Error during QR code detection using pyzbar:", e)
-        return None
 
 def scan_qr_codes(image):
     # Attempt QR code detection using OpenCV
@@ -90,16 +77,20 @@ def scan_qr_codes(image):
         pyperclip.copy(qr_data)
         print("QR Code Data:", qr_data)
         print("QR Code data copied to clipboard.")
+        return qr_data
     
-    # If OpenCV detection fails, attempt detection using pyzbar
-    qr_data_pyzbar = scan_qr_codes_pyzbar(image)
-    if qr_data_pyzbar:
-        return qr_data_pyzbar
-    
-    # If both methods fail, return None
+    # If OpenCV detection fails, return None
     return None
 
+
 def process_screenshot(screenshot, enhancements):
+    # Attempt QR code detection without enhancements
+    print("Trying without enhancements...")
+    qr_data = scan_qr_codes(screenshot)
+    if qr_data:
+        return qr_data
+    
+    # If no QR code is found without enhancements, proceed with enhancements
     for enhancement in enhancements:
         enhancement_names = [func.__name__ for func in enhancement]
         print("Trying enhancements:", ", ".join(enhancement_names))
@@ -110,6 +101,7 @@ def process_screenshot(screenshot, enhancements):
         if qr_data:
             return qr_data
     return None
+
 
 def main():
     print("Welcome to the qrToText automation. Made with a drop of love and a bucket on insanity.")
