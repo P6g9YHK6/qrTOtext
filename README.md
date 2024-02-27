@@ -5,7 +5,7 @@ QR Code Text Extractor is a Python script that captures screenshots, processes t
 ## Features
 
 - Capture screenshots
-- Apply various image enhancements
+- Apply various image enhancements (contrast, invert colors, noise reduction, enhance sharpness, edge detection)
 - Detect and extract text from QR codes in the screenshots
 - Copy extracted text to the clipboard
 
@@ -23,9 +23,7 @@ QR Code Text Extractor is a Python script that captures screenshots, processes t
 
 1. Run the script:
 
-    ```bash
-    python qrTOtext.py
-    ```
+python qrTOtext.py
 
 2. Press F8 to capture and process a screenshot.
 3. If a QR code is detected, its text will be copied to the clipboard.
