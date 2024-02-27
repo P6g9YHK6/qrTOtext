@@ -4,7 +4,9 @@ import cv2
 import numpy as np
 import pyperclip
 import keyboard
+import tkinter as tk
 import itertools
+import subprocess
 
 def take_screenshot():
     # Take a screenshot of the entire screen
@@ -65,6 +67,13 @@ def scan_qr_codes_opencv(image):
         print("Error during QR code detection using OpenCV:", e)
         return None
 
+def copy_to_clipboard(text):
+    try:
+        # Copy text to clipboard using 'clip' command on Windows
+        subprocess.run(['clip'], input=text.strip().encode(), check=True)
+        print("Text copied to clipboard successfully.")
+    except Exception as e:
+        print("Error copying text to clipboard:", e)
 
 def scan_qr_codes(image):
     # Attempt QR code detection using OpenCV
@@ -73,15 +82,18 @@ def scan_qr_codes(image):
         # Ensure qr_data is a string
         qr_data = qr_data[0] if isinstance(qr_data, list) else qr_data
         
+        # Remove leading and trailing whitespace characters, including line returns
+        qr_data = qr_data.strip("\r\n")
+        
         # Copy qr_data to clipboard
-        pyperclip.copy(qr_data)
-        print("QR Code Data:", qr_data)
+        copy_to_clipboard(qr_data)
+        print("QR Code Data:")
+        print(qr_data)
         print("QR Code data copied to clipboard.")
         return qr_data
     
     # If OpenCV detection fails, return None
     return None
-
 
 def process_screenshot(screenshot, enhancements):
     # Attempt QR code detection without enhancements
@@ -102,10 +114,8 @@ def process_screenshot(screenshot, enhancements):
             return qr_data
     return None
 
-
 def main():
-    print("Welcome to the qrToText automation. Made with a drop of love and a bucket on insanity.")
-    print("SAN")
+    print("Welcome to the qrToText automation. Made with a drop of love and a bucket of insanity.")
     print("Press F8")
     # Define all enhancement functions
     all_enhancements = [
@@ -131,9 +141,7 @@ def main():
             screenshot = take_screenshot()
             qr_data = process_screenshot(screenshot, enhancements)
             if qr_data:
-                print("QR Code Data:", qr_data)
-                pyperclip.copy('\n'.join(qr_data))
-                print("QR Code data copied to clipboard.")
+                print("Success")
             else:
                 print("No QR code found in the screenshot.")
             print("Press F8 to capture and process another screenshot. Press Esc to exit.")
