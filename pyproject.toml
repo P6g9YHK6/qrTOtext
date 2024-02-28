@@ -1,0 +1,49 @@
+[build-system]
+requires = ["flit_core >=3.4,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "qrTOtext"
+description = "QR Code Text Extractor"
+license = {text = "GPLv3+"}
+readme = "README.md"
+authors = [{name = "P6g9YHK6", email = "17877371+P6g9YHK6@users.noreply.github.com"}]
+keywords = ["qrcode", "scan"]
+classifiers = [
+"Programming Language :: Python :: 3",
+"Development Status :: 4 - Beta",
+"License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+]
+dynamic = ["version"]
+requires-python = ">=3.0"
+dependencies = [
+"pyautogui",
+"Pillow",
+"opencv-python",
+"pyzbar",
+"keyboard"
+]
+
+[project.scripts]
+qrTOtext = "qrTOtext:main"
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+
+[tool.isort]
+profile = "black"
+known_third_party = ["pyautogui"]
+
+[tool.blake]
+line-length = 120
+
+[tool.pylint.format]
+max-line-length = 120
+
+[tool.bandit]
+skips = []
+
+[tool.coverage.run]
+source = []
