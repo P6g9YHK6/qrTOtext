@@ -1,3 +1,6 @@
+WORKS FINE BUT DEV STOPED NOT USED IN PROD ANYMORE.
+
+
 # QR Code Text Extractor
 
 QR Code Text Extractor is a Python script that captures screenshots, processes them to enhance QR code readability, and extracts text from QR codes present in the screenshots.
